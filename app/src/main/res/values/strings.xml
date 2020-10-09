@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Recover</string>
+
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
+
+    <string name="backup_prompt">💪 Backing…</string>
+    <string name="backup_success_prompt">Successful backup.</string>
+
+    <string name="restore_prompt">💪 Restoring backup…</string>
+    <string name="restore_success_prompt">Successful recovery.</string>
+</resources>
