@@ -46,122 +46,146 @@ echo $final_string
 }
 
 echo "开始备份……"
-ps -ef | grep com.tencent.mm | grep -v grep |awk '{print $2}' | xargs kill -9 >> /dev/null 2>&1
+am force-stop com.tencent.mm
 
 rm -rf /storage/emulated/0/WeChat_tmp/backup
 mkdir /storage/emulated/0/WeChat_tmp/backup
 
-
-
-
-
-
-
 echo "备份聊天记录中…"
-check_dir_name="EnMicroMsg"
-dir_all=$(ls -l /data/data/com.tencent.mm/MicroMsg/ |awk '/^d/ {print $NF}')
+dir_all=$(ls "/data/data/com.tencent.mm/MicroMsg/")
 for dir_i in $dir_all
 do
-if (( ${#dir_i} >25 ));then
+
+if (( ${#dir_i} > 30 )) && (( ${#dir_i} < 34 ));then
  dir_cut=$(ls "/data/data/com.tencent.mm/MicroMsg/${dir_i}")
 for dir_name in $dir_cut
 do
- if [[ $dir_name == *$check_dir_name* ]];then
+ if [[ $dir_name == *"EnMicroMsg2"* ]];then
+ rm -f /data/data/com.tencent.mm/MicroMsg/${dir_i}/${dir_name}
+ elif [[ $dir_name == *"EnMicroMsg"* ]];then
  if [ ! -d /storage/emulated/0/WeChat_tmp/backup/$dir_i  ];then
   mkdir /storage/emulated/0/WeChat_tmp/backup/$dir_i
  fi
  cp -r /data/data/com.tencent.mm/MicroMsg/${dir_i}/${dir_name} /storage/emulated/0/WeChat_tmp/backup/$dir_i
  fi
- done
- 
- if (( need_voice == 1 ));then
-  if [ -e /data/data/com.tencent.mm/MicroMsg/${dir_i}/account.bin  ];then
- cp -rf /data/data/com.tencent.mm/MicroMsg/${dir_i}/account.bin /storage/emulated/0/WeChat_tmp/backup/$dir_i
+
+
+if (( need_pictures == 1 ));then
+ if [[ $dir_name == *"image2"* ]];then
+ echo "备份data/data/微信图片中…"
+ cp -rLf /data/data/com.tencent.mm/MicroMsg/${dir_i}/${dir_name} /storage/emulated/0/WeChat_tmp/backup/
+ echo "备份data/data/微信图片完成！"
  fi
- elif (( need_video == 1 ));then
-   if [ -e /data/data/com.tencent.mm/MicroMsg/${dir_i}/account.bin  ];then
- cp -rf /data/data/com.tencent.mm/MicroMsg/${dir_i}/account.bin /storage/emulated/0/WeChat_tmp/backup/$dir_i
- fi
- fi
- 
- if (( need_pictures == 1 ));then
- if [ -d /data/data/com.tencent.mm/MicroMsg/${dir_i}/image2  ];then
- echo "备份图片消息中…"
- cp -rf /data/data/com.tencent.mm/MicroMsg/${dir_i}/image2 /storage/emulated/0/WeChat_tmp/backup/$dir_i
- echo "备份图片消息完成"
- fi
- fi
- 
- 
 fi
 done
-echo "备份聊天记录完成"
 
+fi
+done
+
+
+
+
+storage_dir_all=$(ls "/storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/")
+for storage_dir_i in $storage_dir_all
+do
+
+if (( ${#storage_dir_i} > 30 )) && (( ${#storage_dir_i} < 34 ));then
+ storage_dir_cut=$(ls "/storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/${storage_dir_i}")
+for storage_dir_name in $storage_dir_cut
+do
+if (( need_pictures == 1 ));then
+ if [[ $storage_dir_name == *"image2"* ]];then
+ echo "备份/Android/data/微信图片中…"
+ cp -rLf /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/${storage_dir_i}/${storage_dir_name} /storage/emulated/0/WeChat_tmp/backup/
+ echo "备份/Android/data/微信图片完成！"
+ fi
+fi
 
 if (( need_voice == 1 ));then
-echo "备份语音消息中…"
- mkdir /storage/emulated/0/WeChat_tmp/backup/voice
-voice_check_dir_name="voice2"
-voice_dir_all=$(ls -l /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/ |awk '/^d/ {print $NF}')
-for voice_dir_i in $voice_dir_all
-do
-
-if (( ${#voice_dir_i} >25 ));then
- voice_dir_cut=$(ls "/storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/${voice_dir_i}")
- 
-for voice_dir_name in $voice_dir_cut
-do
- if [[ $voice_dir_name == *$voice_check_dir_name* ]];then
-  if [ ! -d /storage/emulated/0/WeChat_tmp/backup/voice/$voice_dir_i  ];then
-  mkdir /storage/emulated/0/WeChat_tmp/backup/voice/$voice_dir_i
+ if [[ $storage_dir_name == *"voice2"* ]];then
+ echo "备份/Android/data/微信语音中…"
+ cp -rLf /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/${storage_dir_i}/${storage_dir_name} /storage/emulated/0/WeChat_tmp/backup/
+ echo "备份/Android/data/微信语音完成！"
  fi
-cp -r /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/${voice_dir_i}/${voice_dir_name} /storage/emulated/0/WeChat_tmp/backup/voice/$voice_dir_i
 fi
-done
-
-fi
-
-done
-echo "备份语音消息完成"
-fi
-
-
 
 if (( need_video == 1 ));then
-echo "备份视频文件中…"
- mkdir /storage/emulated/0/WeChat_tmp/backup/video
-video_check_dir_name="video"
-video_dir_all=$(ls -l /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/ |awk '/^d/ {print $NF}')
-for video_dir_i in $video_dir_all
-do
-
-if (( ${#video_dir_i} >25 ));then
- video_dir_cut=$(ls "/storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/${video_dir_i}")
- 
-for video_dir_name in $video_dir_cut
-do
- if [[ $video_dir_name == *$video_check_dir_name* ]];then
-  if [ ! -d /storage/emulated/0/WeChat_tmp/backup/video/$video_dir_i  ];then
-  mkdir /storage/emulated/0/WeChat_tmp/backup/video/$video_dir_i
+ if [[ $storage_dir_name == *"video"* ]];then
+ echo "备份/Android/data/微信视频中…"
+ cp -rLf /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/${storage_dir_i}/${storage_dir_name} /storage/emulated/0/WeChat_tmp/backup/
+ echo "备份/Android/data/微信视频完成！"
  fi
-cp -r /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/${video_dir_i}/${video_dir_name} /storage/emulated/0/WeChat_tmp/backup/video/$video_dir_i
 fi
 done
 
 fi
-
 done
-echo "备份视频文件完成"
+
+
+
+
+tencent="tencent"
+ if [ ! -d /storage/emulated/0/tencent  ];then
+ tencent="Tencent"
+ fi
+ 
+if [ -d /storage/emulated/0/${tencent}/MicroMsg/ ];then
+tencent_dir_all=$(ls "/storage/emulated/0/${tencent}/MicroMsg/")
+for tencent_dir_i in $tencent_dir_all
+do
+
+if (( ${#tencent_dir_i} > 30 )) && (( ${#tencent_dir_i} < 34 ));then
+ tencent_dir_cut=$(ls "/storage/emulated/0/${tencent}/MicroMsg/${tencent_dir_i}")
+for tencent_dir_name in $tencent_dir_cut
+do
+if (( need_pictures == 1 ));then
+ if [[ $tencent_dir_name == *"image2"* ]];then
+ echo "备份/${tencent}/微信图片中…"
+ cp -rLf /storage/emulated/0/${tencent}/MicroMsg/${tencent_dir_i}/${tencent_dir_name} /storage/emulated/0/WeChat_tmp/backup/
+ echo "备份/${tencent}/微信图片完成！"
+ fi
+fi
+
+if (( need_voice == 1 ));then
+ if [[ $tencent_dir_name == *"voice2"* ]];then
+ echo "备份/${tencent}/微信语音中…"
+ cp -rLf /storage/emulated/0/${tencent}/MicroMsg/${tencent_dir_i}/${tencent_dir_name} /storage/emulated/0/WeChat_tmp/backup/
+ echo "备份/${tencent}/微信语音完成！"
+ fi
+fi
+
+if (( need_video == 1 ));then
+ if [[ $tencent_dir_name == *"video"* ]];then
+ echo "备份/${tencent}/微信视频中…"
+ cp -rLf /storage/emulated/0/${tencent}/MicroMsg/${tencent_dir_i}/${tencent_dir_name} /storage/emulated/0/WeChat_tmp/backup/
+ echo "备份/${tencent}/微信视频完成！"
+ fi
+fi
+done
+
+fi
+done
 fi
 
 
 
 if (( need_files == 1 ));then
 echo "备份下载的文件中…"
- cp -r /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/Download /storage/emulated/0/WeChat_tmp/backup >> /dev/null 2>&1
- echo "备份下载的文件完成"
+ if [ -d /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/Download  ];then
+ cp -rLf /storage/emulated/0/Android/data/com.tencent.mm/MicroMsg/Download /storage/emulated/0/WeChat_tmp/backup
+ fi
+ if [ -d /storage/emulated/0/tencent/MicroMsg/Download  ];then
+ cp -rLf /storage/emulated/0/tencent/MicroMsg/Download /storage/emulated/0/WeChat_tmp/backup
+ fi
+echo "备份下载的文件完成"
 fi
 
+if [ -e /data/data/com.tencent.mm/files/KeyInfo.bin  ];then
+ cp -f /data/data/com.tencent.mm/files/KeyInfo.bin /storage/emulated/0/WeChat_tmp/backup
+echo "获取跨设备恢复关键文件成功！"
+else
+echo "获取跨设备恢复关键文件失败！可能导致数据包无法跨设备恢复！"
+fi
 
 
 
@@ -169,9 +193,6 @@ time2=$(date "+%Y%m%d")
 cd /storage/emulated/0/WeChat_tmp/ && tar -cf ${time2}.tar ./backup/*
 mv /storage/emulated/0/WeChat_tmp/${time2}.tar /storage/emulated/0/WeChat_backup/
 echo "微信数据打包完成"
-
-
-
 
 if (( $delete_day > 0 ));then
 echo "开始删除${delete_day}天前的备份文件"
@@ -189,8 +210,8 @@ rm -f /storage/emulated/0/WeChat_backup/${file_name}
 fi
 fi
 done
+echo "删除${delete_day}天前的备份文件完成！"
 fi
 
-
-
 rm -rf /storage/emulated/0/WeChat_tmp/
+echo "备份全部完成啦！！！"
