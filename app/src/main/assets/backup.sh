@@ -66,7 +66,7 @@ do
  if [ ! -d /storage/emulated/0/WeChat_tmp/backup/$dir_i  ];then
   mkdir /storage/emulated/0/WeChat_tmp/backup/$dir_i
  fi
- cp -r /data/data/com.tencent.mm/MicroMsg/${dir_i}/${dir_name} /storage/emulated/0/WeChat_tmp/backup/$dir_i
+ cp -rf /data/data/com.tencent.mm/MicroMsg/${dir_i}/${dir_name} /storage/emulated/0/WeChat_tmp/backup/$dir_i
  fi
 
 
@@ -120,7 +120,6 @@ done
 
 fi
 done
-
 
 
 
@@ -187,7 +186,15 @@ else
 echo "获取跨设备恢复关键文件失败！可能导致数据包无法跨设备恢复！"
 fi
 
-
+if [ -d /storage/emulated/0/WeChat_tmp/backup/video ];then
+video_dir=$(ls "/storage/emulated/0/WeChat_tmp/backup/video")
+for video_dir_i in $video_dir
+do
+ if [[ $video_dir_i == *".tmp"* ]];then
+ rm -f /storage/emulated/0/WeChat_tmp/backup/video/${video_dir_i}
+ fi
+done
+fi
 
 time2=$(date "+%Y%m%d")
 cd /storage/emulated/0/WeChat_tmp/ && tar -cf ${time2}.tar ./backup/*
@@ -205,7 +212,7 @@ do
 if [[ $file_name == *$check_file_name* ]];then
 file_name_date=${file_name: 0 : 8 }
 file_date=$(($time2-$file_name_date))
-if (( $file_date > $delete_day ));then
+if [[ $file_date -ge $delete_day ]];then
 rm -f /storage/emulated/0/WeChat_backup/${file_name}
 fi
 fi

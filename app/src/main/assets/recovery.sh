@@ -5,7 +5,7 @@
 
 
 
-recovery_date="20201010" #需要恢复数据的日期，格式"年月日"
+recovery_date="20201011" #需要恢复数据的日期，格式"年月日"
 
 
 
@@ -38,6 +38,18 @@ echo "开始恢复……"
 am force-stop com.tencent.mm
 cp /storage/emulated/0/WeChat_backup/${recovery_date}.tar /storage/emulated/0/WeChat_tmp/
 cd /storage/emulated/0/WeChat_tmp/ && tar -xf ${recovery_date}.tar >> /dev/null 2>&1
+
+if [ -d /storage/emulated/0/WeChat_tmp/backup/image2  ];then
+wechat_versioncode=`pm dump com.tencent.mm | grep "versionCode"`
+wechat_versioncode=`echo $wechat_versioncode  | sed s/[[:space:]]//g  `
+wechat_versioncode=${wechat_versioncode: 12 : 4 }
+echo "微信版本号为${wechat_versioncode}"
+if (( $wechat_versioncode > 1681 ));then
+echo "微信版本大于7.0.15，将采用新版图片恢复方案~"
+else
+echo "微信版本小于或等于7.0.15，将采用旧版图片恢复方案~"
+fi
+fi
 
  tencent="tencent"
  if [ ! -d /storage/emulated/0/tencent  ];then
@@ -84,9 +96,9 @@ break
 fi
 done
 
+tencent_dir_all=$(ls "/storage/emulated/0/${tencent}/MicroMsg/")
 if [[ $storage_str == "" ]];then
 in_android="0"
-tencent_dir_all=$(ls "/storage/emulated/0/${tencent}/MicroMsg/")
 for tencent_dir_i in $tencent_dir_all
 do
 if (( ${#tencent_dir_i} > 30 )) && (( ${#tencent_dir_i} < 34 ));then
@@ -160,6 +172,8 @@ cp -rf /storage/emulated/0/WeChat_tmp/backup/video ${storage_path}
 echo "恢复视频成功！"
 fi
 
+
+if [[ $wechat_versioncode > 1681 ]] && [ -d /storage/emulated/0/WeChat_tmp/backup/image2  ];then
 for recovery_dir_i in $recovery_dir_all
 do
 if (( ${#recovery_dir_i} > 30 )) && (( ${#recovery_dir_i} < 34 ));then
@@ -170,6 +184,7 @@ echo "恢复图片到data/data成功！"
 fi
 fi
 done
+fi
 
 for storage_dir_i in $storage_dir_all
 do
