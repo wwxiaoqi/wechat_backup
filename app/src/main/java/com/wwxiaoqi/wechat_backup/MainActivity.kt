@@ -17,7 +17,7 @@ import com.wwxiaoqi.wechat_backup.utils.PermissionUtils.verifyStoragePermissions
 class MainActivity : AppCompatActivity(), View.OnClickListener {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    setContentView(R.layout.activity_home)
     init()
     initPermission()
     initView()

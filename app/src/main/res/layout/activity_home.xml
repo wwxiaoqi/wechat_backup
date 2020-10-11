@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="10dp"
+        tools:ignore="UselessParent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/offline_sharing_animation"
+            android:layout_width="400dp"
+            android:layout_height="200dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/animation" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:maxWidth="200dp"
+            android:text="@string/title" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <com.wwxiaoqi.wechat_backup.widget.FilletButtonWidget
+                android:id="@+id/btn_backup"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:bg_color="#000"
+                app:radius="13dp"
+                app:text="@string/backup" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <com.wwxiaoqi.wechat_backup.widget.FilletButtonWidget
+                android:id="@+id/btn_restore"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:bg_color="#000"
+                app:radius="13dp"
+                app:text="@string/restore" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WidgetButton">
+        <attr name="bg_color" format="color" />
+        <attr name="elevation" format="dimension" />
+        <attr name="radius" format="dimension" />
+        <attr name="src" format="dimension" />
+        <attr name="text" format="dimension" />
+        <attr name="text_color" format="color" />
+        <attr name="tint_color" format="color" />
+    </declare-styleable>
+</resources>

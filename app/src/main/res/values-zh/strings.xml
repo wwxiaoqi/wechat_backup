@@ -10,4 +10,5 @@
 
     <string name="restore_prompt">💪 正在努力恢复备份…</string>
     <string name="restore_success_prompt">恢复成功啦!</string>
+    <string name="title">欢迎</string>
 </resources>
