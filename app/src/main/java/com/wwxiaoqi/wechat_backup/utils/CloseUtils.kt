@@ -6,37 +6,43 @@ import java.io.IOException
 /**
  * 关闭相关工具类
  */
-object CloseUtils {
-  /**
-   * 关闭 IO
-   *
-   * @param closeables closeables
-   */
-  fun closeIO(vararg closeables: Closeable?) {
-    for (closeable in closeables) {
-      if (closeable != null) {
-        try {
-          closeable.close()
-        } catch (e: IOException) {
-          e.printStackTrace()
+class CloseUtils private constructor() {
+  companion object {
+    /**
+     * 关闭IO
+     *
+     * @param closeables closeable
+     */
+    fun closeIO(vararg closeables: Closeable?) {
+      for (closeable in closeables) {
+        if (closeable != null) {
+          try {
+            closeable.close()
+          } catch (e: IOException) {
+            e.printStackTrace()
+          }
+        }
+      }
+    }
+
+    /**
+     * 安静关闭IO
+     *
+     * @param closeables closeable
+     */
+    fun closeIOQuietly(vararg closeables: Closeable?) {
+      for (closeable in closeables) {
+        if (closeable != null) {
+          try {
+            closeable.close()
+          } catch (ignored: IOException) {
+          }
         }
       }
     }
   }
 
-  /**
-   * 安静关闭 IO
-   *
-   * @param closeables closeables
-   */
-  fun closeIOQuietly(vararg closeables: Closeable?) {
-    for (closeable in closeables) {
-      if (closeable != null) {
-        try {
-          closeable.close()
-        } catch (ignored: IOException) {
-        }
-      }
-    }
+  init {
+    throw UnsupportedOperationException("u can't instantiate me...")
   }
 }

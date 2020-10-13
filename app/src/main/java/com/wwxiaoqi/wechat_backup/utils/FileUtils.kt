@@ -9,6 +9,7 @@ import java.util.*
  * 文件处理工具类
  */
 object FileUtils {
+
   /***
    * 复制 AssetManager 文件到指定位置
    * @param assetManager AssetManager
@@ -109,4 +110,20 @@ object FileUtils {
       false
     }
   }
+
+  /**
+   * 删除单个文件
+   *
+   * @param fileName 要删除的文件的文件名
+   * @return 删除成功返回 true，否则返回 false
+   */
+  fun deleteSingleFile(fileName: String): Boolean {
+    val file = File(fileName)
+    return if (file.exists() && file.isFile) {
+      file.delete()
+    } else {
+      false
+    }
+  }
+
 }
