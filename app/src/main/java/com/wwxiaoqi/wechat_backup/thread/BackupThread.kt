@@ -1,31 +1,26 @@
 package com.wwxiaoqi.wechat_backup.thread
 
-import android.app.ProgressDialog
-import android.content.Context
-import com.wwxiaoqi.wechat_backup.R
+import android.os.Handler
+import android.os.Message
 import com.wwxiaoqi.wechat_backup.utils.ShellUtils
 import java.io.File
 
-class BackupThread(private val context: Context, private val fileDir: File) : Thread() {
-  private val progressDialog: ProgressDialog = ProgressDialog(context)
+class BackupThread(
+  private val fileDir: File,
+  private val timeHandler: Handler
+) : Thread() {
   override fun run() {
     try {
-      sleep(3000)
       Thread {
         val cmd = arrayOf("su", "source $fileDir/backup.sh")
         ShellUtils.execCmd(cmd, true)
       }.start()
-      progressDialog.setMessage(context.getString(R.string.backup_success_prompt))
       sleep(3000)
-      progressDialog.dismiss()
+      val message: Message = Message.obtain()
+      message.what = 0
+      timeHandler.sendMessage(message)
     } catch (e: InterruptedException) {
       e.printStackTrace()
     }
-  }
-
-  init {
-    progressDialog.setMessage(context.getString(R.string.backup_prompt))
-    progressDialog.setCancelable(false)
-    progressDialog.show()
   }
 }

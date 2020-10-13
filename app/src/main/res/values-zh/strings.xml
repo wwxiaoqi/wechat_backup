@@ -5,10 +5,9 @@
     <string name="backup">备份</string>
     <string name="restore">恢复</string>
 
-    <string name="backup_prompt">💪 正在努力备份…</string>
-    <string name="backup_success_prompt">备份成功啦!</string>
+    <string name="prompt">💪 正在努力执行中…</string>
+    <string name="success_prompt">成功啦!</string>
 
-    <string name="restore_prompt">💪 正在努力恢复备份…</string>
-    <string name="restore_success_prompt">恢复成功啦!</string>
     <string name="title">欢迎</string>
+    <string name="error_prompt">错误</string>
 </resources>

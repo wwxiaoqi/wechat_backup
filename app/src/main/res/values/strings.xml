@@ -4,10 +4,9 @@
     <string name="backup">Backup</string>
     <string name="restore">Restore</string>
 
-    <string name="backup_prompt">💪 Backing…</string>
-    <string name="backup_success_prompt">Successful backup.</string>
+    <string name="prompt">💪 Hard working…</string>
+    <string name="success_prompt">Successful.</string>
 
-    <string name="restore_prompt">💪 Restoring backup…</string>
-    <string name="restore_success_prompt">Successful recovery.</string>
     <string name="title">Welcome</string>
+    <string name="error_prompt">Error</string>
 </resources>
