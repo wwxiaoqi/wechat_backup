@@ -12,11 +12,14 @@ android {
     minSdkVersion 19
     targetSdkVersion 30
     versionCode 1
-    versionName "1.0"
+    versionName "1.1"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
 
   buildTypes {
+    debug {
+      applicationIdSuffix '.debug'
+    }
     release {
       minifyEnabled true
       shrinkResources true

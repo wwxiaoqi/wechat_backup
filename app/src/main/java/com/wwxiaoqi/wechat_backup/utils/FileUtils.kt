@@ -1,5 +1,6 @@
 package com.wwxiaoqi.wechat_backup.utils
 
+import android.content.Context
 import android.content.res.AssetManager
 import org.apache.commons.io.IOUtils
 import java.io.*
@@ -34,9 +35,9 @@ object FileUtils {
    * @param filePath 文件路径
    * @return boolean 存在 true，不存在 false
    */
-  fun fileIsExists(filePath: String): Boolean {
+  fun fileIsExists(context: Context, filePath: String): Boolean {
     try {
-      val file = File(filePath)
+      val file = File(context.externalCacheDir!!.absolutePath, filePath)
       if (!file.exists()) {
         return false
       }
