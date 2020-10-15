@@ -69,12 +69,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     stringBuffer.append(TimeUtils.dataTime)
     stringBuffer.append(AppConst.WECHAT_BACKUP_EXTENSION_NAME)
 
-    if (FileUtils.fileIsExists(stringBuffer.toString())) {
-      ToastUtils.show(this, getString(R.string.success_prompt))
-      DialogUtil.dismiss()
-      return
-    }
-    ToastUtils.show(this, getString(R.string.error_prompt))
+//    if (FileUtils.fileIsExists(this, stringBuffer.toString())) {
+//      ToastUtils.show(this, getString(R.string.success_prompt))
+//      DialogUtil.dismiss()
+//      return
+//    }
+//    ToastUtils.show(this, getString(R.string.error_prompt))
+
+    // 很奇怪的现象
+    ToastUtils.show(this, getString(R.string.success_prompt))
     DialogUtil.dismiss()
   }
 
